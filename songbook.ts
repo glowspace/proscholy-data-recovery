@@ -20,23 +20,53 @@ export interface Songbook {
 }
 
 export async function import_songbook_with_records(songbook: Songbook, db: Kysely<DB>) {
-    await db.insertInto('songbooks').values({
-        id: songbook.id,
-        name: songbook.name,
-        shortcut: songbook.shortcut,
-        color: songbook.color,
-        color_text: songbook.color_text,
-        is_private: songbook.is_private ? 1 : 0,
-        ...dates(),
-    }).onConflict(oc => oc.column('id').doNothing()).execute();
+    const existing_songbook_ids = (await db
+        .selectFrom('songbooks')
+        .select(['id'])
+        .where('id', '=', songbook.id)
+        .execute()).map(row => row.id);
 
-    const inserted_songbook_records = await db.insertInto('songbook_records').values(
-        songbook.records.map(record => ({
+    if (!existing_songbook_ids.includes(songbook.id)) {
+        await db.insertInto('songbooks').values({
+            id: songbook.id,
+            name: songbook.name,
+            shortcut: songbook.shortcut,
+            color: songbook.color,
+            color_text: songbook.color_text,
+            is_private: songbook.is_private ? 1 : 0,
+            ...dates(),
+        }).execute();
+        console.log(`Songbook with ID ${songbook.id} inserted.`);
+    } else {
+        console.log(`Songbook with ID ${songbook.id} already exists, skipping insertion.`);
+    }
+
+    // Insert songbook records (but ignore all that are already present (same ID)).
+    // 1. Get all songbook records IDs for this songbook.
+    const existing_record_ids = (await db
+        .selectFrom('songbook_records')
+        .select(['id'])
+        .where('songbook_id', '=', songbook.id)
+        .execute()).map(row => row.id);
+        
+    const existing_record_ids_set = new Set(existing_record_ids);
+    console.log(`Songbook ${songbook.id}: existing records: ${existing_record_ids_set.size}`);
+
+    const new_records = songbook.records.filter(record => !existing_record_ids_set.has(record.id));
+    console.log(`Songbook ${songbook.id}: new records: ${new_records.length}`);
+
+    if (new_records.length === 0) {
+        console.log(`Songbook ${songbook.id}: No new records to insert.`);
+        return;
+    }
+
+    await db.insertInto('songbook_records').values(
+        new_records.map(record => ({
+            id: record.id,
             number: record.number,
             song_lyric_id: Number(record.song_lyric_id),
             songbook_id: Number(record.songbook_id),
+            ...dates(),
         }))
     ).execute();
-
-    console.log(`Imported songbook ${songbook.name} with ${inserted_songbook_records.length} updated rows.`);
 }

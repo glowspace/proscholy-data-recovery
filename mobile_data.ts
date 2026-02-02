@@ -5,6 +5,7 @@ interface MobileData {
     authors: any[];
     externals: any[];
     tags: any[];
+    songbooks: any[];
 }
 
 export const mobile_data: MobileData = data as MobileData;
