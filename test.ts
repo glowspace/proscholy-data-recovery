@@ -1,5 +1,5 @@
 import { Kysely, MysqlDialect } from "kysely";
-import type { DB } from "kysely-codegen";
+import type { DB } from "./db";
 import { createPool } from "mysql2";
 
 const db = new Kysely<DB>({

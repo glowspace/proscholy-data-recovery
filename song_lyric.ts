@@ -1,5 +1,5 @@
 import type { Kysely } from "kysely";
-import type { DB } from "kysely-codegen";
+import type { DB } from "./db";
 import { dates } from "./utils";
 
 export interface External {
