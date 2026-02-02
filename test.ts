@@ -1,18 +1,4 @@
-import { Kysely, MysqlDialect } from "kysely";
-import type { DB } from "./db";
-import { createPool } from "mysql2";
-
-const db = new Kysely<DB>({
-  dialect: new MysqlDialect({
-    pool: createPool({
-      database: "proscholy",
-      host: "localhost",
-      password: "test",
-      user: "test",
-    }),
-  }),
-});
-
+import { db } from "./db_instance";
 
 // get the last id in song_lyrics table
 

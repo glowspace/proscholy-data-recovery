@@ -8,11 +8,21 @@ export interface Author {
 }
 
 export async function import_authors(authors: Author[], db: Kysely<DB>) {
+    const existing_ids = await db
+        .selectFrom('authors')
+        .select(['id'])
+        .execute()
+        .then(rows => rows.map(row => row.id));
+
+    const existing_ids_set = new Set(existing_ids);
+
+    const new_authors = authors.filter(author => !existing_ids_set.has(author.id));
+
     await db.insertInto('authors').values(
-        authors.map(author => ({
+        new_authors.map(author => ({
             id: author.id,
             name: author.name,
             ...dates(),
         }))
-    ).onConflict(oc => oc.column('id').doNothing()).execute();
+    ).execute();
 }
