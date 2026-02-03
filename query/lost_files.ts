@@ -1,5 +1,6 @@
-import data from '../data.json' with { type: 'json' };
-const d = data as any;
+import fs from 'fs/promises';
+import path from 'path';
+import { mobile_data } from '../mobile_data';
 
 interface PhoneExternal {
     media_id: string;  
@@ -8,7 +9,8 @@ interface PhoneExternal {
 }
 
 const uploaded_files: PhoneExternal[] = [];
-for (const song_lyric of d.song_lyrics) {
+for (const song_lyric of mobile_data.song_lyrics) {
+    // Files are stored in the database as "externals".
     for (const external of song_lyric.externals) {
         if (external.url.startsWith('https://zpevnik.proscholy.cz')) {
             uploaded_files.push({ 
@@ -20,9 +22,6 @@ for (const song_lyric of d.song_lyrics) {
     }
 }
 
-import fs from 'fs/promises';
-import path from 'path';
-
 const dir = path.join(__dirname, '../public_files/zps_public_files');
 const files = await fs.readdir(dir);
 const file_names_set = new Set(files);
@@ -33,12 +32,6 @@ for (const uploaded_file of uploaded_files) {
     if (file_names_set.has(uploaded_file.media_id)) {
         continue;
     }
-    // if (uploaded_file.media_id.match(/^(kan|ek|EK)[\da-z]+\.pdf/)) {
-    //     continue;
-    // }
-    // if (uploaded_file.media_id.endsWith('.xml')) {
-    //     continue;
-    // }
     if (uploaded_file.media_id.startsWith('ez/pdf')) {
         continue;
     }
