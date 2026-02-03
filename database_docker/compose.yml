@@ -1,0 +1,30 @@
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    expose:
+      - 3306
+    volumes:
+      - ./data_mysql:/var/lib/mysql
+      - ../database_backup_data:/home/backup
+    command:
+      - "mysqld"
+      - "--innodb_buffer_pool_size=500M"
+    networks:
+      - net
+    ports:
+      - 3306:3306
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - net
+
+networks:
+  net:
+    driver: bridge
