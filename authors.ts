@@ -18,6 +18,11 @@ export async function import_authors(authors: Author[], db: Kysely<DB>) {
 
     const new_authors = authors.filter(author => !existing_ids_set.has(author.id));
 
+    if (new_authors.length === 0) {
+        console.log("No new authors to import.");
+        return;
+    }
+
     await db.insertInto('authors').values(
         new_authors.map(author => ({
             id: author.id,
@@ -25,4 +30,6 @@ export async function import_authors(authors: Author[], db: Kysely<DB>) {
             ...dates(),
         }))
     ).execute();
+
+    console.log(`Imported ${new_authors.length} authors.`);
 }

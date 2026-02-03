@@ -12,3 +12,4 @@ for (const author of mobile_data.authors) {
 }
 
 await import_authors(authors, db);
+await db.destroy();
