@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { mobile_data } from '../mobile_data';
+import { mobile_data } from '../mobile_data/mobile_data';
 
 interface PhoneExternal {
     media_id: string;  
