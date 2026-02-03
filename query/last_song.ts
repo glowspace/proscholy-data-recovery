@@ -1,4 +1,3 @@
-import data from '../data.json' with { type: 'json' };
-const d = data as any;
+import { mobile_data } from "../mobile_data/mobile_data";
 
-console.log(d.song_lyrics.at(-1));
+console.log(mobile_data.song_lyrics.at(-1));

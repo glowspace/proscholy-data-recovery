@@ -2,24 +2,24 @@ import type { Kysely } from "kysely";
 import type { DB } from "./db";
 import { dates } from "./utils";
 
-export interface SongbookRecord {
+export interface ImportSongbookRecord {
     id: number;
     number: string;
     song_lyric_id: string;
     songbook_id: string;
 }
 
-export interface Songbook {
+export interface ImportSongbook {
     id: number;
     name: string;
     shortcut: string;
     color: string;
     color_text: string;
     is_private: boolean;
-    records: SongbookRecord[];
+    records: ImportSongbookRecord[];
 }
 
-export async function import_songbook_with_records(songbook: Songbook, db: Kysely<DB>) {
+export async function import_songbook_with_records(songbook: ImportSongbook, db: Kysely<DB>) {
     const existing_songbook_ids = (await db
         .selectFrom('songbooks')
         .select(['id'])

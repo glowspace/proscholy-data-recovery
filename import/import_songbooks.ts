@@ -1,17 +1,17 @@
 import { import_authors, type Author } from "../authors";
 import { db } from "../db_instance";
 import { mobile_data } from "../mobile_data/mobile_data";
-import { import_songbook_with_records, type Songbook } from "../songbook";
+import { import_songbook_with_records, type ImportSongbook } from "../songbook";
 
-const songbooks: Songbook[] = [];
+const songbooks: ImportSongbook[] = [];
 
 for (const songbook of mobile_data.songbooks) {
     songbooks.push({
         id: songbook.id,
         name: songbook.name,
         shortcut: songbook.shortcut,
-        color: songbook.color,
-        color_text: songbook.color_text,
+        color: songbook.color ?? '',
+        color_text: songbook.color_text ?? '',
         is_private: songbook.is_private,
         records: songbook.records.map((record: any) => ({
             id: record.id,

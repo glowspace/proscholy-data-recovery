@@ -2,7 +2,7 @@ import type { Kysely } from "kysely";
 import type { DB } from "./db";
 import { dates } from "./utils";
 
-export interface External {
+export interface ImportExternal {
   id: number;
   media_id: string;
   url: string;
@@ -21,7 +21,7 @@ export interface ImportSongLyric {
   has_chords: boolean;
   song_id: number;
   tag_ids: number[];
-  externals: External[];
+  externals: ImportExternal[];
   author_ids: number[];
 }
 
