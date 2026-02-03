@@ -1,4 +1,4 @@
-import { import_authors, type Author } from "../authors";
+import { import_authors, type ImportAuthor } from "../authors";
 import { db } from "../db_instance";
 import { mobile_data } from "../mobile_data/mobile_data";
 import { import_songbook_with_records, type ImportSongbook } from "../songbook";

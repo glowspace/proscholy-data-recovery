@@ -2,12 +2,12 @@ import type { Kysely } from "kysely";
 import type { DB } from "./db";
 import { dates } from "./utils";
 
-export interface Author {
+export interface ImportAuthor {
     id: number;
     name: string;
 }
 
-export async function import_authors(authors: Author[], db: Kysely<DB>) {
+export async function import_authors(authors: ImportAuthor[], db: Kysely<DB>) {
     const existing_ids = await db
         .selectFrom('authors')
         .select(['id'])

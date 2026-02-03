@@ -1,8 +1,8 @@
-import { import_authors, type Author } from "../authors";
+import { import_authors, type ImportAuthor } from "../authors";
 import { db } from "../db_instance";
 import { mobile_data } from "../mobile_data/mobile_data";
 
-const authors: Author[] = [];
+const authors: ImportAuthor[] = [];
 
 for (const author of mobile_data.authors) {
     authors.push({
