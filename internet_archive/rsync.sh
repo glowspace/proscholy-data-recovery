@@ -1,0 +1,1 @@
+rsync -avh --info=progress2,stats2 -e ssh  internet_archive/internet_archive_files/   proscholy-hetzner:/var/www/proscholy-api/storage/app/public/soubor

@@ -4,6 +4,9 @@
   "workspaces": {
     "": {
       "name": "zpevnik-recovery",
+      "dependencies": {
+        "csv-simple-parser": "^2.0.2",
+      },
       "devDependencies": {
         "@types/bun": "latest",
         "kysely": "^0.28.11",
@@ -50,7 +53,11 @@
 
     "cosmiconfig": ["cosmiconfig@9.0.0", "", { "dependencies": { "env-paths": "^2.2.1", "import-fresh": "^3.3.0", "js-yaml": "^4.1.0", "parse-json": "^5.2.0" }, "peerDependencies": { "typescript": ">=4.9.5" }, "optionalPeers": ["typescript"] }, "sha512-itvL5h8RETACmOTFc4UfIyB2RfEHi71Ax6E/PivVxq9NseKbOWpeyHEOIbmAw1rs8Ak0VursQNww7lf7YtUwzg=="],
 
+    "csv-simple-parser": ["csv-simple-parser@2.0.2", "", { "dependencies": { "detect-eol": "^3.0.1" } }, "sha512-G9KUSB7Bh8mRjZcg340FJM96tJYPPfb+UjR6T+dOcdRLChmwOTP6jB9+rJwmqDoaPHMJW/CXabYbJ1ZEjbkrrg=="],
+
     "denque": ["denque@2.1.0", "", {}, "sha512-HVQE3AAb/pxF8fQAoiqpvg9i3evqug3hoiwakOyZAwJm+6vZehbkYXZ0l4JxS+I3QxM97v5aaRNhj8v5oBhekw=="],
+
+    "detect-eol": ["detect-eol@3.0.1", "", {}, "sha512-ncnuLiZCKO7Kt+3CpwUIV8QnnwpBsSFxGQBY6Nve18K2aOrTim2xpzDa8YunHkePt39OCfV2qOX+b7xjYSDRWg=="],
 
     "diff": ["diff@3.5.1", "", {}, "sha512-Z3u54A8qGyqFOSr2pk0ijYs8mOE9Qz8kTvtKeBI+upoG9j04Sq+oI7W8zAJiQybDcESET8/uIdHzs0p3k4fZlw=="],
 
