@@ -19,7 +19,7 @@ for (const song_lyric of mobile_data.song_lyrics) {
         lang: song_lyric.lang,
         type_enum: song_lyric.type_enum,
         has_chords: song_lyric.has_chords,
-        song_id: Number(song_id),
+        song_id: song_id === undefined ? undefined : Number(song_id),
         author_ids: song_lyric.authors_pivot.map(({ pivot }) => pivot.author.id),
         externals: song_lyric.externals.map((external) => ({
             id: external.id,
