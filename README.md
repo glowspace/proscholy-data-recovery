@@ -16,9 +16,9 @@ In order to work with the MySQL database, you need to have Docker (Compose) inst
 
 `/database_docker`:
 
-- Running `docker compose up -d` inside this folder spawns a MySQL container.
-- Running `bun import.ts` imports the `_migrated` file into the running container.
-- You can examine the data via `adminer` (at localhost:8080), with credentials stored in the `.env` file.
+- Running `docker compose up -d` inside this folder spawns MySQL and Adminer containers.
+- Running `bun import.ts` imports the `proscholy_2022_migrated.sql.gz` file into the running container.
+- You can examine the data via the Adminer console (at localhost:8080), see the credentials stored in the `.env` file.
 
 `/database_repository`: Contains interfaces and methods for convenient and type-safe work with the database.
 
