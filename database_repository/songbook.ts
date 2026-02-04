@@ -1,6 +1,6 @@
 import type { Kysely } from "kysely";
 import type { DB } from "./db";
-import { dates } from "./utils";
+import { dates } from "../utils";
 
 export interface ImportSongbookRecord {
     id: number;
@@ -60,8 +60,18 @@ export async function import_songbook_with_records(songbook: ImportSongbook, db:
         return;
     }
 
+    const missing_song_lyric_ids = await db.selectFrom('song_lyrics')
+        .select(['id'])
+        .where('id', 'in', new_records.map(record => Number(record.song_lyric_id)))
+        .execute()
+        .then(rows => rows.map(row => row.id));
+    const missing_song_lyric_ids_set = new Set(missing_song_lyric_ids);
+    console.log(`Missing song_lyric IDs for songbook ${songbook.id}: ${[...missing_song_lyric_ids_set].join(', ')}`);
+
+    const non_missing_records = new_records.filter(record => missing_song_lyric_ids_set.has(Number(record.song_lyric_id)));
+
     await db.insertInto('songbook_records').values(
-        new_records.map(record => ({
+        non_missing_records.map(record => ({
             id: record.id,
             number: record.number,
             song_lyric_id: Number(record.song_lyric_id),
