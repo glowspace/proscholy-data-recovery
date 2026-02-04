@@ -19,7 +19,7 @@ export interface ImportSongLyric {
   lang: string;
   type_enum: number;
   has_chords: boolean;
-  song_id: number;
+  song_id: number | undefined;
   tag_ids: number[];
   externals: ImportExternal[];
   author_ids: number[];
@@ -47,22 +47,24 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
   const secondary_name_1 = data.secondary_name_1 ?? null;
   const secondary_name_2 = data.secondary_name_2 ?? null;
 
-  const song_exists = await db
-    .selectFrom("songs")
-    .select("id")
-    .where("id", "=", data.song_id)
-    .executeTakeFirst();
+  if (data.song_id !== undefined) {
+    const song_exists = await db
+      .selectFrom("songs")
+      .select("id")
+      .where("id", "=", data.song_id)
+      .executeTakeFirst();
 
-  if (!song_exists) {
-    await db
-      .insertInto("songs")
-      .values({
-        id: data.song_id,
-        name: data.name,
-        ...nowDates,
-      })
-      .execute();
-    console.log(`Inserted song ${data.song_id}, ${data.name}`);
+    if (!song_exists) {
+      await db
+        .insertInto("songs")
+        .values({
+          id: data.song_id,
+          name: data.name,
+          ...nowDates,
+        })
+        .execute();
+      console.log(`Inserted song ${data.song_id}, ${data.name}`);
+    }
   }
 
   const song_lyric_exists = await db

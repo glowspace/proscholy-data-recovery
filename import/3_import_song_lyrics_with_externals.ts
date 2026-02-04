@@ -7,8 +7,7 @@ const song_lyrics: ImportSongLyric[] = [];
 for (const song_lyric of mobile_data.song_lyrics) {
     const song_id = song_lyric.song?.id;
     if (song_id == null) {
-        console.warn(`Song lyric with id ${song_lyric.id} has no associated song, skipping...`);
-        continue;
+        console.warn(`Song lyric with id ${song_lyric.id} has no associated song.`);
     }
     song_lyrics.push({
         id: song_lyric.id,
