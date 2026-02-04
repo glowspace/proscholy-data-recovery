@@ -63,7 +63,6 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
           ...nowDates,
         })
         .execute();
-      console.log(`Inserted song ${data.song_id}, ${data.name}`);
     }
   }
 
@@ -93,7 +92,6 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
       })
       .where("id", "=", data.id)
       .execute();
-     console.log(`Updated song lyric ${data.id}, ${data.name}`);
   } else {
     await db
       .insertInto("song_lyrics")
@@ -103,7 +101,6 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
         ...nowDates,
       })
       .execute();
-    console.log(`Inserted song lyric ${data.id}, ${data.name}`);
   }
 
   const lyricRowExists = await db
@@ -120,7 +117,6 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
       })
       .where("song_lyric_id", "=", data.id)
       .execute();
-      console.log(`Updated lyrics for song lyric ${data.id}`);
   } else {
     await db
       .insertInto("song_lyric_lyrics")
@@ -129,7 +125,6 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
         lyrics: data.lyrics,
       })
       .execute();
-      console.log(`Inserted lyrics for song lyric ${data.id}`);
   }
 
   for (const tag_id of data.tag_ids) {
@@ -151,7 +146,6 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
         })
         .execute();
     }
-    console.log(`Associated tag ${tag_id} with song lyric ${data.id}`);
   }
 
   for (const external of data.externals) {
@@ -174,7 +168,6 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
         })
         .where("id", "=", external.id)
         .execute();
-        console.log(`Updated external ${external.id} for song lyric ${data.id}`);
     } else {
       await db
         .insertInto("externals")
@@ -186,7 +179,6 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
           ...nowDates,
         })
         .execute();
-        console.log(`Inserted external ${external.id} for song lyric ${data.id}`);
     }
   }
 
@@ -206,7 +198,6 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
           song_lyric_id: data.id,
         })
         .execute();
-      console.log(`Associated author ${author_id} with song lyric ${data.id}`);
     }
   }
 }
