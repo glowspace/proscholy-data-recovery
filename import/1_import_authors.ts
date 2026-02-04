@@ -1,5 +1,5 @@
-import { import_authors, type ImportAuthor } from "../authors";
-import { db } from "../db_instance";
+import { import_authors, type ImportAuthor } from "../database_repository/authors";
+import { db } from "../database_repository/db_instance";
 import { mobile_data } from "../mobile_data/mobile_data";
 
 const authors: ImportAuthor[] = [];

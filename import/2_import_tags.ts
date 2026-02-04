@@ -1,6 +1,6 @@
-import { db } from "../db_instance";
+import { db } from "../database_repository/db_instance";
 import { mobile_data } from "../mobile_data/mobile_data";
-import { import_tags, remove_all_taggables } from "../tag";
+import { import_tags, remove_all_taggables } from "../database_repository/tag";
 
 await remove_all_taggables(db);
 

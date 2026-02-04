@@ -1,7 +1,6 @@
-import { import_authors, type ImportAuthor } from "../authors";
-import { db } from "../db_instance";
+import { db } from "../database_repository/db_instance";
 import { mobile_data } from "../mobile_data/mobile_data";
-import { import_songbook_with_records, type ImportSongbook } from "../songbook";
+import { import_songbook_with_records, type ImportSongbook } from "../database_repository/songbook";
 
 const songbooks: ImportSongbook[] = [];
 

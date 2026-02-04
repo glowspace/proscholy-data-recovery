@@ -1,6 +1,6 @@
-import { db } from "../db_instance";
+import { db } from "../database_repository/db_instance";
 import { mobile_data } from "../mobile_data/mobile_data";
-import { import_song_lyric, type ImportSongLyric } from "../song_lyric";
+import { import_song_lyric, type ImportSongLyric } from "../database_repository/song_lyric";
 
 const song_lyrics: ImportSongLyric[] = [];
 

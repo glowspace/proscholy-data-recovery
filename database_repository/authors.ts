@@ -1,6 +1,6 @@
 import type { Kysely } from "kysely";
 import type { DB } from "./db";
-import { dates } from "./utils";
+import { dates } from "../utils";
 
 export interface ImportAuthor {
     id: number;
