@@ -60,18 +60,29 @@ export async function import_songbook_with_records(songbook: ImportSongbook, db:
         return;
     }
 
-    const missing_song_lyric_ids = await db.selectFrom('song_lyrics')
+    const existing_song_lyric_ids = await db.selectFrom('song_lyrics')
         .select(['id'])
         .where('id', 'in', new_records.map(record => Number(record.song_lyric_id)))
         .execute()
         .then(rows => rows.map(row => row.id));
-    const missing_song_lyric_ids_set = new Set(missing_song_lyric_ids);
-    console.log(`Missing song_lyric IDs for songbook ${songbook.id}: ${[...missing_song_lyric_ids_set].join(', ')}`);
+    const existing_song_lyric_ids_set = new Set(existing_song_lyric_ids);
 
-    const non_missing_records = new_records.filter(record => missing_song_lyric_ids_set.has(Number(record.song_lyric_id)));
+    const correct_records = new_records.filter(record => existing_song_lyric_ids_set.has(Number(record.song_lyric_id)));
+    const skipped_song_lyric_ids = new_records
+        .filter(record => !existing_song_lyric_ids_set.has(Number(record.song_lyric_id)))
+        .map(record => record.song_lyric_id);
+
+    if (skipped_song_lyric_ids.length > 0) {
+        console.log(`Songbook ${songbook.id}: Skipped song_lyric IDs: ${skipped_song_lyric_ids.join(', ')}`);
+    }
+
+    if (correct_records.length === 0) {
+        console.log(`Songbook ${songbook.id}: No correct records to insert after filtering.`);
+        return;
+    }
 
     await db.insertInto('songbook_records').values(
-        non_missing_records.map(record => ({
+        correct_records.map(record => ({
             id: record.id,
             number: record.number,
             song_lyric_id: Number(record.song_lyric_id),
