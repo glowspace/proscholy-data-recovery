@@ -33,8 +33,8 @@ for (const song_lyric of mobile_data.song_lyrics) {
 }
 
 for (const song_lyric of song_lyrics) {
-    console.log(`Importing song lyric id ${song_lyric.id} - ${song_lyric.name}`);
     await import_song_lyric(song_lyric, db);
 }
+console.log(`Imported ${song_lyrics.length} song lyrics.`);
 
 await db.destroy();
