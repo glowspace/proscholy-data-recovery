@@ -7,6 +7,7 @@ export interface ImportExternal {
   media_id: string;
   url: string;
   media_type: string | null;
+  is_uploaded: boolean;
 }
 
 export interface ImportSongLyric {
@@ -146,6 +147,7 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
           url: external.url,
           media_type: external.media_type,
           updated_at: nowDates.updated_at,
+          is_uploaded: external.is_uploaded ? 1 : 0,
         })
         .where("id", "=", external.id)
         .execute();
@@ -157,6 +159,7 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
           song_lyric_id: data.id,
           url: external.url,
           media_type: external.media_type,
+          is_uploaded: external.is_uploaded ? 1 : 0,
           ...nowDates,
         })
         .execute();

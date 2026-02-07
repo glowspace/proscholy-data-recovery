@@ -44,6 +44,7 @@ for (const song_lyric of mobile_data.song_lyrics) {
             media_id: external.media_id ?? '',
             url: external.url,
             media_type: media_type_to_string(external.media_type, external.url),
+            is_uploaded: external.url.startsWith('https://zpevnik.proscholy.cz') && external.media_id !== undefined,
         })),
         tag_ids: song_lyric.tags.map((tag) => tag.id),
     })
