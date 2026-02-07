@@ -6,7 +6,7 @@ export interface ImportExternal {
   id: number;
   media_id: string;
   url: string;
-  media_type: number;
+  media_type: string | null;
 }
 
 export interface ImportSongLyric {
@@ -24,23 +24,6 @@ export interface ImportSongLyric {
   externals: ImportExternal[];
   author_ids: number[];
 }
-
-const media_type_to_string = [
-  "odkaz",
-  "spotify URI",
-  "soundcloud",
-  "youtube",
-  "noty",
-  "webová stránka autora",
-  "youtube kanál",
-  "audio soubor",
-  "text s akordy (pdf)",
-  "text (pdf)",
-  "facebook",
-  "instagram",
-  "profilová fotka",
-  "fotka",
-];
 
 export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
   const nowDates = dates();
@@ -149,8 +132,6 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
   }
 
   for (const external of data.externals) {
-    const media_type = media_type_to_string[external.media_type] ?? null;
-
     const externalExists = await db
       .selectFrom("externals")
       .select("id")
@@ -163,7 +144,7 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
         .set({
           song_lyric_id: data.id,
           url: external.url,
-          media_type,
+          media_type: external.media_type,
           updated_at: nowDates.updated_at,
         })
         .where("id", "=", external.id)
@@ -175,7 +156,7 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
           id: external.id,
           song_lyric_id: data.id,
           url: external.url,
-          media_type,
+          media_type: external.media_type,
           ...nowDates,
         })
         .execute();

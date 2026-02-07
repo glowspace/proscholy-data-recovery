@@ -4,6 +4,24 @@ import { import_song_lyric, type ImportSongLyric } from "../database_repository/
 
 const song_lyrics: ImportSongLyric[] = [];
 
+const XML_FILE_TYPE = 'file/xml';
+
+function media_type_to_string(media_type: number, url: string): string | null {
+    if (url.endsWith('.xml')) {
+        return XML_FILE_TYPE;
+    }
+    switch (media_type) {
+        case 0: return 'spotify';
+        case 1: return 'soundcloud';
+        case 2: return 'youtube';
+        case 3: return 'file/mp3';
+        case 4: return 'file/pdf';
+        case 5: return 'file/jpeg';
+        default: return null;
+    }
+}
+    
+
 for (const song_lyric of mobile_data.song_lyrics) {
     const song_id = song_lyric.song?.id;
     if (song_id == null) {
@@ -25,7 +43,7 @@ for (const song_lyric of mobile_data.song_lyrics) {
             id: external.id,
             media_id: external.media_id ?? '',
             url: external.url,
-            media_type: external.media_type,
+            media_type: media_type_to_string(external.media_type, external.url),
         })),
         tag_ids: song_lyric.tags.map((tag) => tag.id),
     })
