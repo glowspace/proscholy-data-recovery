@@ -12,6 +12,7 @@ export interface ImportExternal {
 
 export interface ImportSongLyric {
   id: number;
+  song_number: number;
   name: string;
   secondary_name_1: string | undefined;
   secondary_name_2: string | undefined;
@@ -58,6 +59,7 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
 
   const songLyricValues = {
     name: data.name,
+    song_number: data.song_number,
     secondary_name_1,
     secondary_name_2,
     hymnology: data.hymnology,

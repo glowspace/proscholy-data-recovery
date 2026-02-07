@@ -29,6 +29,7 @@ for (const song_lyric of mobile_data.song_lyrics) {
     }
     song_lyrics.push({
         id: song_lyric.id,
+        song_number: song_lyric.id, // This is duplicated.
         name: song_lyric.name,
         secondary_name_1: song_lyric.secondary_name_1,
         secondary_name_2: song_lyric.secondary_name_2,
