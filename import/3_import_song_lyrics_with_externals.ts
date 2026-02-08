@@ -1,6 +1,7 @@
 import { db } from "../database_repository/db_instance";
 import { mobile_data } from "../mobile_data/mobile_data";
 import { import_song_lyric, type ImportSongLyric } from "../database_repository/song_lyric";
+import { song_lyric_id__licence_type_cc } from "../evangelicky_zpevnik/license_index";
 
 const song_lyrics: ImportSongLyric[] = [];
 
@@ -43,11 +44,12 @@ for (const song_lyric of mobile_data.song_lyrics) {
         externals: song_lyric.externals.map((external) => ({
             id: external.id,
             media_id: external.media_id ?? '',
-            url: external.url,
+            url: external.url,                                                                                                                                                      
             media_type: media_type_to_string(external.media_type, external.url),
             is_uploaded: external.url.startsWith('https://zpevnik.proscholy.cz') && external.media_id !== undefined,
         })),
         tag_ids: song_lyric.tags.map((tag) => tag.id),
+        licence_type_cc: song_lyric_id__licence_type_cc.get(song_lyric.id)
     })
 }
 

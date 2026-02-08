@@ -16,6 +16,7 @@ export interface ImportSongLyric {
   name: string;
   secondary_name_1: string | undefined;
   secondary_name_2: string | undefined;
+  licence_type_cc: number | undefined;
   lyrics: string;
   hymnology: string;
   lang: string;
@@ -67,6 +68,7 @@ export async function import_song_lyric(data: ImportSongLyric, db: Kysely<DB>) {
     type: data.type_enum,
     has_chords: data.has_chords ? 1 : 0,
     song_id: data.song_id,
+    licence_type_cc: data.licence_type_cc,
   };
 
   if (song_lyric_exists) {
