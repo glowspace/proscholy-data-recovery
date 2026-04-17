@@ -1,6 +1,6 @@
-import { data } from './graphql_data';
+import { data } from './query_data_updated';
 
-const externals = data.data.song_lyrics.flatMap((sl) => sl.externals);
+const externals = data.song_lyrics.flatMap((sl) => sl.externals);
 
         // Match urls with "zpevnik.proscholy.cz" ending with pdf
 const number_dot_pdf = externals.filter((e) => e.url.includes('zpevnik.proscholy.cz') && e.url.endsWith('.pdf'));
@@ -21,4 +21,7 @@ for (const e of number_dot_pdf) {
     }
 }
 
-Bun.write('non_existing.txt', JSON.stringify(non_existing, null, 2));
+console.log(non_existing);
+console.log(non_existing.length);
+
+// Bun.write('non_existing.txt', JSON.stringify(non_existing, null, 2));
